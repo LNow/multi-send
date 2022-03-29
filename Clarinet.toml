@@ -1,0 +1,43 @@
+
+[project]
+name = "multi-send"
+authors = ["LNow"]
+telemetry = false
+
+[repl]
+costs_version = 2
+
+[repl.analysis]
+passes = ["check_checker"]
+
+[repl.analysis.check_checker]
+# If true, inputs are trusted after tx_sender has been checked.
+trusted_sender = false
+# If true, inputs are trusted after contract-caller has been checked.
+trusted_caller = false
+# If true, untrusted data may be passed into a private function without a
+# warning, if it gets checked inside. This check will also propagate up to the
+# caller.
+callee_filter = false
+
+# EXTERNAL CONTRACTS
+[contracts.sip-010-trait-ft-standard]
+path = "contracts/external/sip-010-trait-ft-standard.clar"
+depends_on = []
+
+[contracts.sip-009-trait-nft-standard]
+path = "contracts/external/sip-009-trait-nft-standard.clar"
+depends_on = []
+
+[contracts.wstx]
+path = "contracts/wstx.clar"
+depends_on = ["sip-010-trait-ft-standard"]
+
+[contracts.dummy]
+path = "contracts/wstx.clar"
+depends_on = ["sip-010-trait-ft-standard"]
+
+[contracts.ft-multi-send]
+path = "contracts/ft-multi-send.clar"
+depends_on = ["sip-010-trait-ft-standard", "wstx", "dummy"]
+
