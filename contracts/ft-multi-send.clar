@@ -5,26 +5,28 @@
 )
 
 ;; #[allow(unchecked_data)]
-(define-public (send-many (cfg (list 200 {
-  token: principal,
-  amount: uint,
-  sender: principal,
-  recipient: principal,
-  memo: (optional (buff 34))
+(define-public (send-many
+  (cfg (list 200 {
+    token: principal,
+    amount: uint,
+    sender: principal,
+    recipient: principal,
+    memo: (optional (buff 34))
   })))
 
   (fold transfer_ cfg (ok true))
 )
 
-(define-private (transfer_ (ctx {
-  token: principal,
-  amount: uint,
-  sender: principal,
-  recipient: principal,
-  memo: (optional (buff 34))
+(define-private (transfer_
+  (ctx {
+    token: principal,
+    amount: uint,
+    sender: principal,
+    recipient: principal,
+    memo: (optional (buff 34))
   })
-  (out (response bool uint))
-  )
+  (out (response bool uint)))
+
   (match out out_
     (transfer
       (try! (match (index-of CONTRACTS (get token ctx)) idx
@@ -41,7 +43,13 @@
 )
 
 ;; #[allow(unchecked_data)]
-(define-public (transfer (ft <ft-trait>) (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))
+(define-public (transfer
+  (ft <ft-trait>)
+  (amount uint)
+  (sender principal)
+  (recipient principal)
+  (memo (optional (buff 34))))
+
   (contract-call? ft transfer amount sender recipient memo)
 )
 
@@ -64,5 +72,4 @@
   (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx)
   (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx)
   (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx) (as-trait .wstx)
-
 ))
